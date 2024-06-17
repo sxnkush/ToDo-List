@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body
+        {
+            overflow: hidden;
+        }
+        .container
+        {
+            padding: 25px;
+            width: 100%;
+            height: 100vh;
+            background: rgb(2,0,36);
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 0%, rgba(167,196,245,1) 0%, rgba(143,182,248,1) 85%, rgba(140,180,248,1) 87%, rgba(138,179,248,1) 94%, rgba(119,168,250,1) 100%, rgba(1,187,239,1) 100%, rgba(0,212,255,1) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .main
+        {
+            color: white;
+            font-weight: 500;
+            width:350px;
+            gap:20px;
+            height: 95%;
+            background-color: rgb(255, 255, 255);
+            border-radius: 20px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            padding: 20px 20px 0px 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 5px 20px rgb(94, 135, 205);
+        }
+        .time
+        {
+            display: flex;
+            font-size: 1.1rem;
+        }
+        .calender
+        {
+            display: flex;
+            font-size: 1rem;
+        }
+        
+        .clock img{
+            box-shadow: 0px 0px 20px rgba(128, 128, 128, 0.208);
+            border-radius: 20px;
+        }
+
+        .clock
+        {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(143,182,248,1);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 5px 5px 10px rgb(94, 135, 205);
+        }
+        .clock-top
+        {
+            display: flex;
+            flex-direction: column;
+            gap:30px;
+            justify-content: center;
+        }
+        h1{
+            font-size: 1.7rem;
+        }
+
+        .list
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            height:100%;
+            border-radius: 20px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+            color: black;
+            overflow-y:scroll;
+            overflow-x: hidden;
+        }
+        .list::-webkit-scrollbar {
+            width: 0; 
+            height: 0;
+        ;
+        }
+        .button
+        {
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button{
+            font-size: 3rem;
+            border-radius: 100px;
+            width:19%;
+            background: rgb(2,0,36);
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 0%, rgba(167,196,245,1) 0%, rgba(143,182,248,1) 85%, rgba(140,180,248,1) 87%, rgba(138,179,248,1) 94%, rgba(119,168,250,1) 100%, rgba(1,187,239,1) 100%, rgba(0,212,255,1) 100%);
+            color: white;
+            border: none;
+            transition: all 0.1s linear 0.1s;
+            box-shadow: 0px -2px 15px rgb(94, 135, 205);
+            z-index: 1;
+        }
+
+
+        button:hover
+        {            
+            transform: scale(0.95);
+        }
+
+        .bg
+        {
+            background-color: rgb(228, 228, 228);
+            width: 113%;
+            border-top-right-radius: 100px;
+            border-top-left-radius: 100px;
+            height: 70px;
+            margin-top: -46px;
+            margin-left: -20px;
+            margin-bottom:-2px;
+        }
+        .tasks
+        {
+            padding: 15px;
+        }
+
+        .data
+        {
+            display: flex;
+            flex-direction: column;
+            border: 2px solid rgba(128, 128, 128, 0.453);
+            height: 100%;
+            border-radius: 20px;
+            overflow-y: hidden;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="main">
+            <div class="clock">
+                <section class="clock-top">
+                    <h1>ToDO List</h1>
+                    <section class="sub">
+                        <div class="time">
+                            <div class="hours"></div>
+                            <div class="min"></div>
+                            <div class="sec"></div>
+
+                        </div>
+                        <div class="calender">
+                            <div class="date"></div>
+                            <div class="month"></div>
+                            <div class="year"></div>
+                        </div>
+                    </section>
+                </section>
+                <img src="todo.jpg" alt="" width = "140px" height="100px">
+            </div>
+            <div class="data">
+                <div class="list">
+                    <div class="tasks">
+                        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="button">
+                <button class="add">+</button>
+            </div>
+            <div class="bg"></div>
+        </section>
+    </div>
+    <script>
+        let add = document.getElementsByClassName('add')[0]
+        let tasks = document.getElementsByClassName('tasks')[0]
+        let i = 1
+        for(let j = 0; j < localStorage.length; j++)
+                {
+                    let key = localStorage.key(j)
+                let ta = localStorage.getItem(localStorage.key(j))
+                console.log(ta)
+                tasks.innerHTML+=
+                `<div id = "task${key}"> <input type="checkbox" id="remove${key}" onchange = "tremove(${key})">
+                <label for="remove${key}">${ta}</label><br></div>`
+
+                if(key > i)
+                i = (Number.parseInt(key) + 1)
+        }
+        let tadd = () => {
+           
+
+            let a = prompt("Enter your Task")
+            if(a)
+            {
+                localStorage.setItem(`${i}`,a)
+
+                let ta = localStorage.getItem(`${i}`)
+                // tasks.innerHTML += `<p class = "data" id ="task${i}"> ${ta} <button class = "remove" id = "remove${i}"  onclick ="tremove(${i})">X</button></p>`
+                tasks.innerHTML+=
+                `<div id = "task${i}"> <input type="checkbox" id="remove${i}" onchange = "tremove(${i})">
+                <label for="remove${i}">${ta}</label><br></div>`
+
+                i++
+            }
+        }
+        let tremove = (e) => {
+
+            // let tr = document.getElementById(`task${e}`)
+            // tr.remove()
+            // localStorage.removeItem(`${e}`)
+            // console.log(e)
+
+            let tr = document.getElementById(`task${e}`)
+            tr.remove()
+             localStorage.removeItem(`${e}`)
+            
+        }
+
+       
+        add.addEventListener('click',tadd)
+
+
+        let x = function(){
+            let date = new Date()
+            let hour = date.getHours()
+            let min = date.getMinutes()
+            if(min < 10)
+            min = `0${min}`
+            let sec = date.getSeconds()
+            if(sec < 10)
+            sec = `0${sec}`
+            let dat = date.getDate()
+            if(dat < 10)
+            dat = `0${dat}`
+            let month = date.getMonth()
+            if(month < 10)
+            month = `0${month}`
+            let year = date.getFullYear()
+            let clockhr = document.getElementsByTagName('div')[3]
+            let clockmin = document.getElementsByTagName('div')[4]
+            let clocksec = document.getElementsByTagName('div')[5]
+            let clockdat = document.getElementsByTagName('div')[7]
+            let clockmon = document.getElementsByTagName('div')[8]
+            let clockyr = document.getElementsByTagName('div')[9]
+            clockhr.innerHTML = hour + " : "
+            clockmin.innerHTML = min + " : "
+            clocksec.innerHTML = sec
+            clockdat.innerHTML = dat + " / "
+            clockmon.innerHTML = month + " / "
+            clockyr.innerHTML = year
+        }
+        setInterval(x,1000)
+    </script>
+</body>
+</html>
